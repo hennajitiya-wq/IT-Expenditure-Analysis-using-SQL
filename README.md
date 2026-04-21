@@ -1,108 +1,116 @@
-Data Loading & Cleansing 
+**Project Overview:**
+This project focuses on analyzing IT expenditure data to evaluate budget performance, forecast accuracy, and cost optimization opportunities. Using SQL-based analysis, the project delivers multi-dimensional insights across business areas, regions, IT functions, and cost elements to support data-driven financial decision-making.
 
-(a) Table Creation:
-A structured table IT_Expenditure is created to store IT finance data with fields like:
-Date (Month)
-Business Area
-Region, Country
-IT Sub Area, IT Area
-Cost Elements (Name, Group, Subgroup)
-Financial metrics: Actual, Forecast, Plan
+**Problem Statement:** 
+Organizations often struggle to track actual vs forecast vs planned IT spending, leading to budget overruns and inefficient resource allocation.
 
-(b) CSV Import:
-You load raw data from a CSV file using LOAD DATA INFILE.
+**This project aims to:**
+1. Identify overspending and underspending trends.
+2. Evaluate forecasting accuracy.
+3. Pinpoint cost drivers and leakages.
 
-(c) Data Cleaning:
-To avoid import errors caused by blank numeric fields (''), you sanitize them:
+**Data Loading & Cleansing:**
 
-SET Actual = NULLIF(@Actual, ''), Forecast = NULLIF(@Forecast, ''), Plan = NULLIF(@Plan, '');
-This ensures empty values become NULL instead of failing, fixing the error:
+**1. Table Creation:** A structured table IT_Expenditure was designed to store IT financial data, including:
+(a) Time Dimension: Month (Date)
+(b) Business Dimensions: Business Area, Region, Country
+(c) IT Hierarchy: IT Area, IT Sub Area
+(d) Cost Hierarchy: Cost Element Name, Group, Subgroup
+(e) Financial Metrics: Actual, Forecast, Plan
+
+**2. Data Import:** Imported raw CSV data using LOAD DATA INFILE for efficient bulk loading.
+
+**3. Data Cleaning (Production-Ready Approach):** Handled data quality issues to ensure reliable analysis:
+
+Converted blank numeric values to NULL using:
+SET Actual = NULLIF(@Actual, ''),
+    Forecast = NULLIF(@Forecast, ''),
+    Plan = NULLIF(@Plan, '');
+    
+Prevented import errors like:
 Incorrect decimal value: '' for column 'Actual'
 
-Variance Analysis — Key Insights Extracted
-You compute variance between:
+**Ensured data consistency and integrity for downstream analysis:**
+1. Variance Analysis
+2. Key Metrics:
+(A) Actual vs Forecast Variance → Measures operational deviation.
+(B) Actual vs Plan Variance → Measures budget performance.
+Variance = Actual – Forecast / Plan
 
-Actual vs Forecast → measures operational deviations
-Actual vs Plan → measures budget deviation (Variance = Actual – Forecast/Plan)
-The script analyzes variance across multiple business dimensions.
+**Analysis Breakdown:**
 
-* Analysis Breakdown:
-(A). Variance by Month + Business Area + Country + IT Area + Cost Element
+**(A) Multi-Dimensional Variance Analysis:**
 
-This query gives a detailed multi-dimensional report:
-Actual spend
-Forecast spend
-Planned budget
-Actual vs Forecast variance
-Actual vs Plan variance
+Analyzed across:
+(a) Month
+(b) Business Area
+(c) Country
+(d) IT Area
+(e) Cost Elements
 
-Used to identify:
-Overspending categories
-Cost elements that drive deviations
-Country-wise or business-area breakdowns
+Identifies:
+(a) Overspending categories
+(b) Cost drivers
+(c) Region-wise and department-wise deviations
 
-(B). Monthly Variance Overview:
-Aggregates IT spending month-wise.
+**(B) Monthly Variance Trends:**
+Tracks spending patterns over time.
+Identifies seasonal spikes and anomalies.
 
-Purpose:
-Identify months with over/underspend trends
-Analyze seasonal or operational spending spikes
+**(C) Business Area Analysis:**
+Evaluates department-level financial performance.
+Highlights top over/under-spending units.
+Assesses budgeting efficiency.
 
-(C). Variance by Business Area:
-Shows financial performance at the business area level.
+**(D) Country-Level Analysis:**
+Compares IT spending across regions.
+Identifies geographical cost variations.
+Supports global financial planning.
 
-Helps identify:
-Which departments over/under-spent the most
-Budget accuracy and forecast reliability by function
+**(E) IT Area Analysis:**
+Breaks down spending by IT domains (Infrastructure, Security, Digital, etc.)
+Identifies high-cost and underperforming areas.
 
-(D). Variance by Country:
-Rolls up financial performance by geographical region.
+**(F) Cost Element Analysis (Deep Dive):**
+Analyzes spending at:
+(a) Cost Element Name
+(b) Cost Group
+(c) Cost Subgroup
 
-Useful for:
-Regional budgeting
-Global IT finance comparisons
-Country-based cost drivers
+Enables:
+Root cause analysis.
+Vendor/service-level cost tracking.
+Identification of budget leakages.
 
-(E). Variance by IT Area
+**(G) High Deviation Months:**
+Identifies months with maximum variance from plan.
+Highlights financial risk periods.
 
-Provides insights into:
-Which IT domains (Infra, Security, Digital, Planning, etc.) are causing budget deviations
-Areas where optimization is required
-
-(F). Variance by Cost Element
-Breaks down at the deepest cost hierarchy:
-Cost Element Name
-Cost Group
-Cost Subgroup
-
-Great for:
-Identifying cost categories blowing up the budget
-Vendor/service-specific overspend
-Detailed allocation analysis
-
-(G). Identify Months With Highest Deviation
-Sorts months by how much they deviated from the Plan.
-
-Highlights:
-Highest overspend/underspend months
-Financial risk periods
-
-(H). Identify Business Areas With Largest Overspend
-
-Filters only departments where:
+**(H) Overspending Business Areas:**
+Filters business areas where:
 SUM(Actual) > SUM(Plan)
 
-This reveals:
-Top overspending business units
-Where financial governance or planning needs improvement
+Reveals:
+Departments exceeding budget.
+Areas needing financial control & optimization.
 
-* What This Entire Analysis Provides:
-  
-✔ Complete multi-dimensional cost variance analysis
-By Month, Country, Business Area, IT Area, Cost Element.
+**Key Insights Delivered:**
+1. Multi-dimensional cost visibility across business and IT layers.
+2. Identification of overspending, inefficiencies, and cost drivers.
+3. Evaluation of forecast accuracy vs actual performance.
+4. Detection of budget leakages at granular levels.
+5. Support for data-driven financial planning and optimization.
 
-✔ Supports budgeting, forecasting accuracy review
-Shows where the forecast and plan differ from reality.
+**Business Impact:**
+1. Enabled identification of high-cost areas and optimization opportunities.
+2. Improved budget tracking and forecasting accuracy.
+3. Provided actionable insights for cost control and strategic planning.
 
-✔ Identifies cost leakages and overspend areas ✔ Enables root cause analysis
-At the cost element level, helping find specific expense contributors.
+**Tools & Technologies:**
+1. SQL (Data Cleaning & Analysis)
+2. Excel / CSV (Data Source)
+3. Power BI (Dashboard Visualization) (if applicable)
+4. GitHub (Version Control & Project Management)
+
+**Conclusion:**
+This project demonstrates a production-ready data analytics workflow, from raw data ingestion and cleaning to advanced variance analysis and business insight generation. It reflects real-world financial analysis scenarios and showcases strong data analysis, SQL, and problem-solving skills.
